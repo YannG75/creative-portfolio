@@ -1,0 +1,368 @@
+---
+import { Image } from 'astro:assets'
+import profilImg from '../assets/profil.webp'
+---
+
+<section id="about" class="about-section" aria-labelledby="about-title">
+  <div class="about-bg" aria-hidden="true">
+    <div class="halo halo-cyan"   style="top:5%;  left:-6%;  width:600px; height:500px; opacity:0.28;"></div>
+    <div class="halo halo-purple" style="top:20%; right:-4%; width:520px; height:420px; opacity:0.30;"></div>
+  </div>
+
+  <div class="about-inner">
+
+    <!-- Header — col 2 row 1 sur desktop, premier sur mobile -->
+    <div class="about-header scan-in" data-delay="0">
+      <span class="section-label">// 02 · À PROPOS</span>
+      <h2 id="about-title" class="about-title">Qui je suis</h2>
+    </div>
+
+    <!-- Carte profil — col 1 spanning rows sur desktop, après le header sur mobile -->
+    <div class="profile-card scan-in" data-delay="1">
+      <div class="profile-card-header" aria-hidden="true">
+        <span class="pc-title">SYS://PROFILE.EXE</span>
+        <span class="pc-status">● ACTIVE</span>
+      </div>
+      <div class="profile-image-wrap">
+        <Image
+          src={profilImg}
+          alt="Photo de Yann Grillon"
+          class="profile-img"
+          loading="lazy"
+          width={620}
+          height={413}
+        />
+      </div>
+      <div class="profile-card-footer">
+        <span class="tag-dark"># <b style="color: var(--accent-cyan)">0010</b></span>
+        <span class="profile-name">Yann Grillon</span>
+        <div class="profile-bottom-row">
+          <span class="profile-role">Creative Developer</span>
+          <span class="tag-actif">● ACTIF</span>
+        </div>
+      </div>
+      <div class="c-bracket tl" aria-hidden="true"></div>
+      <div class="c-bracket tr" aria-hidden="true"></div>
+      <div class="c-bracket bl" aria-hidden="true"></div>
+      <div class="c-bracket br" aria-hidden="true"></div>
+      <div class="scan-line"></div>
+    </div>
+
+    <!-- Corps texte — col 2 row 2 sur desktop, après la carte sur mobile -->
+    <div class="about-body">
+      <div class="about-text scan-in" data-delay="2">
+        <p>Je suis développeur créatif spécialisé dans la conception d'expériences web immersives. React, Vue et Three.js sont mes outils de prédilection pour transformer des idées ambitieuses en interfaces qui marquent — visuellement et techniquement.</p>
+        <p>Ce qui me distingue : je pense en designer et j'exécute en ingénieur. Chaque projet est une opportunité de repousser ce qu'on croit possible sur le web.</p>
+      </div>
+
+      <blockquote class="about-quote scan-in" data-delay="3">
+        « Le code le plus élégant est celui que l'utilisateur ne verra jamais — mais ressentira. »
+      </blockquote>
+
+      <div class="about-stats scan-in" data-delay="4" role="list">
+        <div class="stat-card stat-cyan" role="listitem">
+          <span class="stat-value">5 ans</span>
+          <span class="stat-label">D'EXPÉRIENCE</span>
+        </div>
+        <div class="stat-card stat-purple" role="listitem">
+          <span class="stat-value stat-purple-val">30+</span>
+          <span class="stat-label">PROJETS LIVRÉS</span>
+        </div>
+        <div class="stat-card stat-dark" role="listitem">
+          <span class="stat-value">0</span>
+          <span class="stat-label">CAFÉ / JOUR</span>
+          <span class="stat-sub">et ça marche quand même</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .about-section {
+    position: relative;
+    padding: 80px 120px;
+    background: linear-gradient(180deg, #07101E 0%, #060B18 100%);
+    overflow: hidden;
+  }
+
+  /* ─── Fond ─── */
+  .about-bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+  .halo { position: absolute; border-radius: 50%; filter: blur(90px); }
+  .halo-cyan   { background: radial-gradient(circle, rgba(0,229,255,0.28) 0%, transparent 70%); }
+  .halo-purple { background: radial-gradient(circle, rgba(168,85,247,0.32) 0%, transparent 70%); }
+
+  /* ─── Grid 2 colonnes ─── */
+  .about-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 310px 1fr;
+    grid-template-rows: auto 1fr;
+    column-gap: 80px;
+    max-width: 1200px;
+  }
+
+  .about-header {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 28px;
+  }
+
+  .profile-card {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0, 229, 255, 0.15);
+    border-radius: 12px;
+    background: rgba(6, 16, 36, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    overflow: hidden;
+    min-height: 520px;
+  }
+
+  .about-body {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  /* ─── Carte profil ─── */
+  .profile-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 36px;
+    padding: 0 14px;
+    flex-shrink: 0;
+    background: rgba(0, 229, 255, 0.04);
+    border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+  }
+
+  .pc-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: rgba(0, 229, 255, 0.55);
+  }
+
+  .pc-status {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(34, 197, 94, 0.7);
+    animation: blink 2.5s step-end infinite;
+  }
+
+  .profile-image-wrap {
+    flex: 1;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 35% top;
+    display: block;
+  }
+
+  .profile-card-footer {
+    padding: 14px 14px 35px;
+    border-top: 1px solid rgba(0, 229, 255, 0.08);
+    background: rgba(0, 4, 16, 0.65);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+
+  .tag-dark {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    display: inline-block;
+    width: fit-content;
+  }
+
+  .profile-name {
+    font-family: var(--font-geist);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .profile-bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .profile-role {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+  }
+
+  .tag-actif {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: #22c55e;
+    padding: 2px 7px;
+    border: 1px solid rgba(34, 197, 94, 0.35);
+    border-radius: 3px;
+    background: rgba(34, 197, 94, 0.08);
+  }
+
+  /* Coins HUD identiques au Hero */
+  .c-bracket { position: absolute; width: 14px; height: 14px; border-color: rgba(0,229,255,0.5); border-style: solid; z-index: 3; }
+  .c-bracket.tl { top: 44px;   left: 12px;  border-width: 1.5px 0 0 1.5px; }
+  .c-bracket.tr { top: 44px;   right: 12px; border-width: 1.5px 1.5px 0 0; }
+  .c-bracket.bl { bottom: 10px; left: 12px;  border-width: 0 0 1.5px 1.5px; }
+  .c-bracket.br { bottom: 10px; right: 12px; border-width: 0 1.5px 1.5px 0; }
+
+  /* ─── Titre ─── */
+  .about-title {
+    font-family: var(--font-geist);
+    font-size: clamp(40px, 4vw, 64px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+  }
+
+  /* ─── Paragraphes ─── */
+  .about-text { display: flex; flex-direction: column; gap: 16px; }
+  .about-text p {
+    font-family: var(--font-geist);
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text-secondary);
+  }
+
+  /* ─── Citation ─── */
+  .about-quote {
+    margin: 0;
+    padding: 14px 18px;
+    border-left: 2px solid var(--accent-purple);
+    background: rgba(168, 85, 247, 0.07);
+    border-radius: 0 4px 4px 0;
+    font-family: var(--font-geist);
+    font-size: 14px;
+    font-style: italic;
+    line-height: 1.65;
+    color: rgba(168, 85, 247, 0.9);
+  }
+
+  /* ─── Métriques ─── */
+  .about-stats { display: flex; gap: 16px; }
+
+  .stat-card {
+    flex: 1;
+    padding: 16px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stat-cyan {
+    background: rgba(0, 229, 255, 0.12);
+    border: 1px solid rgba(0, 229, 255, 0.28);
+  }
+
+  .stat-purple {
+    background: rgba(168, 85, 247, 0.18);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+  }
+
+  .stat-dark {
+    background: rgba(13, 26, 46, 0.8);
+    border: 1px solid #1B3050;
+  }
+
+  .stat-value {
+    font-family: var(--font-geist);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--accent-cyan);
+  }
+
+  .stat-purple-val { color: var(--accent-purple); }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .stat-sub {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    color: var(--accent-cyan);
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  .scan-line {
+    position: absolute;
+    inset-inline: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,229,255,0.45), transparent);
+    animation: scanLine 9s linear infinite;
+    will-change: transform;
+  }
+
+  /* ─── Mobile ─── */
+  @media (max-width: 1024px) {
+    .about-section { padding: 80px 24px; }
+
+    .about-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .about-header { padding-bottom: 0; }
+    .profile-card { height: 400px; min-height: unset; }
+    .about-stats { flex-wrap: wrap; }
+    .stat-card { min-width: calc(50% - 8px); }
+  }
+
+  @media (max-width: 480px) {
+    .about-stats { flex-direction: column; }
+    .stat-card { min-width: unset; }
+  }
+</style>
+
+<script>
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.1 },
+  )
+  document.querySelectorAll('#about .scan-in').forEach(el => observer.observe(el))
+</script>

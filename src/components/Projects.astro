@@ -1,0 +1,147 @@
+---
+import { getImage } from 'astro:assets'
+import ProjectsGallery from './ProjectsGallery.tsx'
+import { projects } from '../data/projects'
+import paroleetvieRaw from '../assets/paroleetvie.webp'
+import pastitaliRaw   from '../assets/pastitalia.webp'
+import busterwoodRaw  from '../assets/busterwood.webp'
+import firestoneRaw   from '../assets/firestone.webp'
+
+const [paroleetvieOpt, pastitaliOpt, busterwoodOpt, firestoneOpt] = await Promise.all([
+  getImage({ src: paroleetvieRaw, width: 720, format: 'webp' }),
+  getImage({ src: pastitaliRaw,   width: 720, format: 'webp' }),
+  getImage({ src: busterwoodRaw,  width: 720, format: 'webp' }),
+  getImage({ src: firestoneRaw,   width: 720, format: 'webp' }),
+])
+
+const imageMap: Record<string, string> = {
+  'parole-et-vie': paroleetvieOpt.src,
+  'pastitalia':    pastitaliOpt.src,
+  'busterwood':    busterwoodOpt.src,
+  'firestone':     firestoneOpt.src,
+}
+---
+
+<section id="projects" class="projects-section" aria-labelledby="projects-title">
+  <!-- Halos décoratifs -->
+  <div class="projects-bg" aria-hidden="true">
+    <div class="halo halo-cyan"   style="top: 5%;  left: 7%;   width: 700px; height: 400px;"></div>
+    <div class="halo halo-purple" style="top: 30%; right: -4%; width: 600px; height: 450px;"></div>
+    <div class="halo halo-cyan"   style="bottom: 8%; left: 20%; width: 500px; height: 350px; opacity: 0.6;"></div>
+  </div>
+
+  <!-- En-tête -->
+  <div class="projects-header scan-in">
+    <span class="section-label">// 03 · TRAVAUX</span>
+    <div class="header-divider" aria-hidden="true"></div>
+  </div>
+
+  <div class="projects-title-block scan-in" data-delay="1">
+    <h2 id="projects-title" class="projects-title">
+      SELECTED <em class="title-accent">WORK</em>
+    </h2>
+    <p class="projects-subtitle">4 projets récents</p>
+  </div>
+
+  <!-- Galerie interactive côté client -->
+  <!-- client:visible = hydratation quand la section entre dans le viewport -->
+  <ProjectsGallery client:visible projects={projects} imageMap={imageMap} />
+</section>
+
+<style>
+  .projects-section {
+    position: relative;
+    padding: 100px 0;
+    background: linear-gradient(180deg, #060B18 0%, #08101F 100%);
+    overflow: hidden;
+  }
+
+  .projects-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .halo {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+  }
+  .halo-cyan   { background: radial-gradient(circle, rgba(0,229,255,0.18) 0%, transparent 70%); }
+  .halo-purple { background: radial-gradient(circle, rgba(168,85,247,0.22) 0%, transparent 70%); }
+
+  .projects-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 0 120px;
+    margin-bottom: 20px;
+  }
+
+  .header-divider {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-cyan), transparent);
+  }
+
+  .projects-title-block {
+    position: relative;
+    z-index: 1;
+    padding: 0 120px;
+    margin-bottom: 48px;
+  }
+
+  .projects-title {
+    font-family: var(--font-geist);
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .title-accent {
+    font-style: normal;
+    color: var(--accent-cyan);
+  }
+
+  .projects-subtitle {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 1024px) {
+    .projects-header,
+    .projects-title-block {
+      padding: 0 48px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .projects-section { padding: 60px 0; }
+    .projects-header,
+    .projects-title-block {
+      padding: 0 24px;
+    }
+  }
+</style>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.1 },
+  )
+  document.querySelectorAll('#projects .scan-in').forEach(el => observer.observe(el))
+</script>

@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Nav from '../components/Nav.astro'
+import Hero from '../components/Hero.astro'
+import About from '../components/About.astro'
+import Skills from '../components/Skills.astro'
+import Projects from '../components/Projects.astro'
+import SideQuest from '../components/SideQuest'
+import Contact from '../components/Contact.astro'
+---
+
+<Layout
+  title="Yann Grillon — Creative Developer"
+  description="Portfolio de Yann Grillon, développeur créatif spécialisé React, Three.js et expériences web immersives. Projets AR, 3D et interfaces holographiques."
+>
+  <Nav />
+  <main id="main-content" tabindex="-1">
+    <Hero />
+    <About />
+    <Skills />
+    <Projects />
+    <SideQuest client:visible />
+    <Contact />
+  </main>
+</Layout>

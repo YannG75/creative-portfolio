@@ -1,0 +1,84 @@
+---
+import '../styles/global.css'
+
+interface Props {
+  title?: string
+  description?: string
+}
+
+const {
+  title = 'Yann Grillon — Creative Developer',
+  description = 'Développeur créatif spécialisé React, Three.js et expériences web immersives. Portfolio de projets interactifs et installations AR.',
+} = Astro.props
+
+const siteUrl = 'https://yanng.xyz'
+const ogImage = `${siteUrl}/images/og-image.jpeg`
+---
+
+<!doctype html>
+<html lang="fr" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#060B18" />
+    <link rel="canonical" href={siteUrl} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Fonts — Geist + Geist Mono via Google Fonts (disponibles depuis 2024) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500&display=swap"
+    />
+
+    <!-- Preload ressources critiques above-the-fold -->
+    <link rel="preload" href="/models/fox.glb" as="fetch" crossorigin />
+
+    <!-- Structured data JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Yann Grillon",
+      "url": siteUrl,
+      "jobTitle": "Creative Developer",
+      "description": description,
+      "image": ogImage,
+      "sameAs": [
+        "https://linkedin.com/in/yann-grillon",
+        "https://malt.fr/profile/yanngrillon"
+      ],
+      "knowsAbout": ["React", "Three.js", "Vue", "TypeScript", "Next.js", "WebGL", "Astro"]
+    })} />
+  </head>
+
+  <body>
+    <slot />
+  </body>
+</html>

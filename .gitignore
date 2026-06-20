@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.astro/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.idea/
+
+# Vite cache
+node_modules/.vite/
+
+# Logs
+npm-debug.log*
+
+# Design & generated files
+portfolio.pen
+dotgrid.js
+grain.glsl
+/images/
+
+# Claude internal
+.claude/

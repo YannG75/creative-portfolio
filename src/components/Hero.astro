@@ -1,0 +1,391 @@
+---
+import FoxCanvas from './FoxCanvas.tsx'
+---
+
+<section id="hero" class="hero" aria-label="Section hero">
+  <!-- Décorations de fond -->
+  <div class="hero-bg" aria-hidden="true">
+    <div class="halo halo-purple" style="top:5%; right:45%; width:640px; height:540px;"></div>
+    <div class="halo halo-cyan"   style="top:35%; right:10%; width:500px; height:420px; opacity:0.45;"></div>
+    <div class="halo halo-cyan"   style="top:15%; left:-6%; width:600px; height:500px; opacity:0.3;"></div>
+    <div class="scan-line"></div>
+  </div>
+
+  <!-- Texte gauche -->
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot" aria-hidden="true"></span>
+      AVAILABLE FOR MISSIONS
+    </div>
+
+    <h1 class="hero-headline">
+      Je construis<br/>
+      des experiences<br/>
+      web <br/>
+      <em class="accent-cyan">qui cassent les codes</em>
+    </h1>
+
+    <p class="hero-tagline">
+      Développeur créatif · React · Vue · Three.js<br/>
+      Je transforme des idées complexes en interfaces mémorables.
+    </p>
+
+    <div class="hero-cta-group">
+      <a href="#projects" class="cta-primary" aria-label="Voir mes projets">
+        VOIR MES PROJETS
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="#about" class="cta-secondary">EN SAVOIR PLUS</a>
+    </div>
+
+    <!-- Scroll hint dans le flux de la colonne (pas absolu) -->
+    <p class="scroll-hint-inline" aria-hidden="true">↓&nbsp;&nbsp;scroll to explore</p>
+  </div>
+
+  <!-- Zone canvas 3D holographique -->
+  <div class="hero-canvas-zone" aria-label="Modèle 3D holographique décoratif — fox en verre">
+    <!-- Barre de titre style terminal -->
+    <div class="panel-header" aria-hidden="true">
+      <span class="ph-title">SYS://3D_EXPERIENCE.EXE</span>
+      <span class="ph-status">● ACTIVE</span>
+    </div>
+
+    <!-- Corps du panel : scan lines + R3F canvas -->
+    <div class="panel-body">
+      <FoxCanvas client:only="react" />
+      <!-- Anneau orbital décoratif (flotte au-dessus du canvas via z-index) -->
+      <div class="orbit-ring" aria-hidden="true"></div>
+    </div>
+
+    <!-- Barre de données en bas -->
+    <div class="data-readout" aria-hidden="true">
+      <div class="dr-col"><span class="dr-label">ROT</span><span class="dr-val">0.24</span></div>
+      <div class="dr-col"><span class="dr-label">SCL</span><span class="dr-val">1.00</span></div>
+      <div class="dr-col"><span class="dr-label">VTX</span><span class="dr-val">16 384</span></div>
+      <div class="dr-col"><span class="dr-label">FPS</span><span class="dr-val">60</span></div>
+    </div>
+
+    <!-- Coins HUD style SAO -->
+    <div class="c-bracket tl" aria-hidden="true"></div>
+    <div class="c-bracket tr" aria-hidden="true"></div>
+    <div class="c-bracket bl" aria-hidden="true"></div>
+    <div class="c-bracket br" aria-hidden="true"></div>
+  </div>
+
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    min-height: 700px;
+    overflow: hidden;
+    background-color: var(--bg-deep);
+  }
+
+  /* ─── Fond ─── */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .halo {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+  }
+  .halo-cyan   { background: radial-gradient(circle, rgba(0,229,255,0.28) 0%, transparent 70%); }
+  .halo-purple { background: radial-gradient(circle, rgba(168,85,247,0.32) 0%, transparent 70%); }
+
+  .scan-line {
+    position: absolute;
+    inset-inline: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,229,255,0.45), transparent);
+    animation: scanLine 9s linear infinite;
+    will-change: transform;
+  }
+
+  /* ─── Contenu texte — ancré à gauche ─── */
+  .hero-content {
+    position: absolute;
+    z-index: 1;
+    left: clamp(24px, 5.5vw, 80px);
+    top: 130px;
+    width: min(620px, calc(50vw - 40px));
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--accent-cyan);
+    background: rgba(0, 229, 255, 0.07);
+    border: 1px solid rgba(0, 229, 255, 0.22);
+    border-radius: 4px;
+    width: fit-content;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 6px rgba(34,197,94,0.6);
+    animation: blink 2s step-end infinite;
+    flex-shrink: 0;
+  }
+
+  .hero-headline {
+    font-family: var(--font-geist);
+    font-size: clamp(42px, 5vw, 72px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .headline-accent {
+    font-style: normal;
+    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-tagline {
+    font-family: var(--font-geist);
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .cta-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 26px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--bg-deep);
+    background: var(--accent-cyan);
+    border-radius: 5px;
+    text-decoration: none;
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+  }
+  .cta-primary:hover {
+    box-shadow: 0 0 32px rgba(0,229,255,0.4);
+    transform: translateY(-1px);
+  }
+
+  .cta-secondary {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 16px 32px;
+    border: 1px solid #1B3050;
+    border-radius: 4px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .cta-secondary:hover {
+    color: var(--text-primary);
+    border-color: var(--border-cyan);
+  }
+
+  /* ─── Zone canvas 3D — ancrée à droite ─── */
+  .hero-canvas-zone {
+    position: absolute;
+    z-index: 1;
+    right: clamp(24px, 5.5vw, 80px);
+    top: 80px;
+    width: min(560px, 42vw);
+    height: min(700px, calc(100svh - 120px));
+    border-radius: 12px;
+    border: 1px solid rgba(0, 229, 255, 0.15);
+    background: rgba(6, 16, 36, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+
+  /* Barre de titre */
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 36px;
+    padding: 0 14px;
+    flex-shrink: 0;
+    background: rgba(0, 229, 255, 0.04);
+    border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+  }
+
+  .ph-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: rgba(0, 229, 255, 0.55);
+  }
+
+  .ph-status {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(34, 197, 94, 0.7);
+    animation: blink 2.5s step-end infinite;
+  }
+
+  /* Corps — scan lines en background CSS + R3F canvas */
+  .panel-body {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background-image: repeating-linear-gradient(
+      180deg,
+      transparent 0px,
+      transparent 54px,
+      rgba(0, 229, 255, 0.035) 54px,
+      rgba(0, 229, 255, 0.035) 55px
+    );
+  }
+
+  /* L'anneau orbital flotte au-dessus du canvas WebGL */
+  .orbit-ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotateX(68deg);
+    width: 300px;
+    height: 110px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 229, 255, 0.1);
+    pointer-events: none;
+    z-index: 2;
+    animation: orbitSpin 14s linear infinite;
+  }
+
+  @keyframes orbitSpin {
+    from { transform: translate(-50%, -50%) rotateX(68deg) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotateX(68deg) rotate(360deg); }
+  }
+
+  /* Données techniques en bas */
+  .data-readout {
+    display: flex;
+    height: 44px;
+    flex-shrink: 0;
+    border-top: 1px solid rgba(0, 229, 255, 0.08);
+    background: rgba(0, 4, 16, 0.65);
+  }
+
+  .dr-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    gap: 2px;
+    border-right: 1px solid rgba(0, 229, 255, 0.06);
+  }
+  .dr-col:last-child { border-right: none; }
+
+  .dr-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.18em;
+    color: rgba(0, 229, 255, 0.35);
+  }
+
+  .dr-val {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: rgba(0, 229, 255, 0.7);
+  }
+
+  /* Coins HUD */
+  .c-bracket {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-color: rgba(0, 229, 255, 0.5);
+    border-style: solid;
+    z-index: 3;
+  }
+  .c-bracket.tl { top: 44px;  left: 12px;  border-width: 1.5px 0 0 1.5px; }
+  .c-bracket.tr { top: 44px;  right: 12px; border-width: 1.5px 1.5px 0 0; }
+  .c-bracket.bl { bottom: 12px; left: 12px;  border-width: 0 0 1.5px 1.5px; }
+  .c-bracket.br { bottom: 12px; right: 12px; border-width: 0 1.5px 1.5px 0; }
+
+  /* Scroll hint : dans le flux de la colonne hero-content */
+  .scroll-hint-inline {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: #6B8BAF;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+
+  /* ─── Mobile ─── */
+  @media (max-width: 1024px) {
+    .hero {
+      height: auto;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-content {
+      position: relative;
+      left: auto;
+      top: auto;
+      width: 100%;
+      padding: 120px 24px 32px;
+    }
+
+    .hero-canvas-zone {
+      position: relative;
+      right: auto;
+      top: auto;
+      width: calc(100% - 48px);
+      height: 300px;
+      align-self: center;
+      margin: 0 24px 48px;
+      flex-shrink: 0;
+    }
+
+  }
+
+  @media (max-width: 480px) {
+    .hero-canvas-zone { height: 260px; }
+  }
+</style>

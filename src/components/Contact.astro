@@ -1,0 +1,330 @@
+---
+const cards = [
+  {
+    id: 'email',
+    icon: '📧',
+    label: 'EMAIL',
+    value: 'yanngalxr@gmail.com',
+    href: 'mailto:yanngalxr@gmail.com',
+    variant: 'cyan',
+    ariaLabel: 'Envoyer un email à yanngalxr@gmail.com',
+  },
+  {
+    id: 'linkedin',
+    icon: 'in',
+    label: 'LINKEDIN',
+    value: '/in/yann-grillon',
+    href: 'https://linkedin.com/in/yann-grillon',
+    variant: 'dark',
+    ariaLabel: 'Profil LinkedIn de Yann Grillon (ouvre un nouvel onglet)',
+    external: true,
+  },
+  // {
+  //   id: 'malt',
+  //   icon: 'M',
+  //   label: 'MALT',
+  //   value: 'malt.fr/yann-grillon',
+  //   href: 'https://malt.fr/profile/yanngrillon',
+  //   variant: 'dark',
+  //   ariaLabel: 'Profil Malt de Yann Grillon (ouvre un nouvel onglet)',
+  //   external: true,
+  // },
+]
+---
+
+<section id="contact" class="contact-section" aria-labelledby="contact-title">
+  <!-- Décorations -->
+  <div class="contact-bg" aria-hidden="true">
+    <div class="halo halo-purple" style="top:5%;  left:-6%; width:580px; height:480px;"></div>
+    <div class="halo halo-cyan"   style="top:20%; right:-4%; width:500px; height:400px; opacity:0.3;"></div>
+  </div>
+
+  <div class="contact-inner">
+    <!-- Label -->
+    <div class="scan-in" data-delay="0">
+      <span class="section-label">// 04 · CONTACT </span>
+    </div>
+
+    <!-- Prompt terminal -->
+    <div class="prompt-line scan-in" data-delay="1" aria-hidden="true">
+      <span class="prompt-prefix">root@yg.dev:~$</span>
+      <span class="prompt-cmd"> init --contact --open-to-work</span>
+      <span class="cursor" aria-hidden="true"></span>
+    </div>
+
+    <!-- Headline -->
+    <h2 id="contact-title" class="contact-headline scan-in" data-delay="2">
+      Construisons<br/>
+      quelque chose<br/>
+      <em class="headline-accent">d'extraordinaire.</em>
+    </h2>
+
+    <!-- 3 cartes de contact — layout HORIZONTAL : icône | label+value -->
+    <div class="contact-cards scan-in" data-delay="3" role="list">
+      {cards.map(card => (
+        <a
+          href={card.href}
+          class={`contact-card contact-card-${card.variant}`}
+          aria-label={card.ariaLabel}
+          role="listitem"
+          {...(card.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >
+          <div class={`card-icon-box card-icon-${card.variant}`} aria-hidden="true">
+            <span class="card-icon-glyph">{card.icon}</span>
+          </div>
+          <div class="card-text">
+            <span class="card-label">{card.label}</span>
+            <span class="card-value">{card.value}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Statut disponibilité -->
+    <div class="status-row scan-in" data-delay="4">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span class="status-text">Disponible pour des missions freelance</span>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer" role="contentinfo">
+  <p class="footer-copy">© 2026 Yann Grillon · Crafted with Astro + Three.js</p>
+  <a href="#hero" class="footer-back" aria-label="Retour en haut de page">↑ back to top</a>
+</footer>
+
+<style>
+  .contact-section {
+    position: relative;
+    padding: 110px clamp(24px, 5.5vw, 80px) 100px;
+    background-color: var(--bg-deep);
+    border-top: 1px solid var(--border-subtle);
+    overflow: hidden;
+  }
+
+  .contact-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .halo {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+  }
+  .halo-cyan   { background: radial-gradient(circle, rgba(0,229,255,0.22) 0%, transparent 70%); }
+  .halo-purple { background: radial-gradient(circle, rgba(168,85,247,0.28) 0%, transparent 70%); }
+
+  /* ─── Contenu ─── */
+  .contact-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    max-width: 960px;
+  }
+
+  /* Prompt */
+  .prompt-line {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 16px;
+  }
+
+  .prompt-prefix { color: var(--text-muted); }
+  .prompt-cmd    { color: var(--accent-cyan); }
+
+  /* Headline */
+  .contact-headline {
+    font-family: var(--font-geist);
+    font-size: clamp(44px, 5vw, 72px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+  }
+
+  .headline-accent {
+    font-style: normal;
+    color: var(--accent-cyan);
+  }
+
+  /* ─── 3 cartes — disposition ROW ─── */
+  .contact-cards {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  /* Carte : HORIZONTAL (icône | texte), alignés sur l'axe central */
+  .contact-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 28px;
+    border-radius: 6px;
+    text-decoration: none;
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .contact-card:hover { transform: translateY(-2px); }
+
+  /* EMAIL — état par défaut : glow subtil (≠ hover) */
+  .contact-card-cyan {
+    background: rgba(0, 229, 255, 0.19);
+    border: 1px solid rgba(0, 229, 255, 0.314);
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.19);
+  }
+  .contact-card-cyan:hover {
+    box-shadow: 0 0 40px rgba(0, 229, 255, 0.35);
+    border-color: rgba(0, 229, 255, 0.55);
+  }
+
+  /* DARK (linkedin, malt) */
+  .contact-card-dark {
+    background: #0D1628;
+    border: 1px solid var(--border-subtle);
+  }
+  .contact-card-dark:hover {
+    border-color: var(--border-cyan);
+    box-shadow: 0 0 24px rgba(0, 229, 255, 0.12);
+  }
+
+  /* ─── Boîte d'icône : 28×28, radius 4px ─── */
+  .card-icon-box {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .card-icon-cyan {
+    background: rgba(0, 229, 255, 0.125);
+  }
+
+  .card-icon-dark {
+    background: #1B3050;
+  }
+
+  .card-icon-glyph {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    line-height: 1;
+  }
+  .contact-card-dark .card-icon-glyph { color: var(--text-secondary); }
+
+  /* ─── Colonne texte ─── */
+  .card-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .card-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--text-muted);
+  }
+
+  .card-value {
+    font-family: var(--font-geist);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ─── Statut ─── */
+  .status-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+    animation: blink 2.5s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  .status-text {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  /* ─── Footer ─── */
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding: 0 clamp(24px, 5.5vw, 80px);
+    border-top: 1px solid var(--border-subtle);
+    background-color: var(--bg-deep);
+  }
+
+  .footer-copy {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  .footer-back {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-back:hover { color: var(--accent-cyan); }
+
+  /* ─── Mobile ─── */
+  @media (max-width: 768px) {
+    .contact-section { padding: 80px 24px; }
+    .prompt-line { font-size: 13px; }
+    .contact-cards { flex-direction: column; gap: 16px; }
+    .contact-card { max-width: none; }
+    .footer { flex-direction: column; height: auto; gap: 12px; padding-block: 24px; }
+  }
+</style>
+
+<script>
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.1 },
+  )
+  document.querySelectorAll('#contact .scan-in').forEach(el => observer.observe(el))
+</script>

@@ -1,0 +1,51 @@
+---
+import { getIconData, iconToSVG } from '@iconify/utils'
+
+interface Props {
+  icon: string
+  size?: number
+  class?: string
+}
+
+const { icon, size = 14, class: className = '' } = Astro.props
+
+// Résout "collection:name" → importe le bon JSON au build time
+async function resolveIcon(iconName: string) {
+  const [collection, name] = iconName.split(':')
+  if (!collection || !name) return null
+
+  try {
+    let icons: any
+    if (collection === 'logos') {
+      icons = (await import('@iconify-json/logos/icons.json')).default
+    } else if (collection === 'mdi') {
+      icons = (await import('@iconify-json/mdi/icons.json')).default
+    }
+    if (!icons) return null
+    return getIconData(icons, name)
+  } catch {
+    return null
+  }
+}
+
+const iconData = await resolveIcon(icon)
+let svgStr = ''
+
+if (iconData) {
+  const { attributes, body } = iconToSVG(iconData, {
+    width: size,
+    height: size,
+  })
+  svgStr = `<svg ${Object.entries(attributes).map(([k, v]) => `${k}="${v}"`).join(' ')} aria-hidden="true">${body}</svg>`
+}
+---
+
+{svgStr ? <Fragment set:html={svgStr} /> : <span class="icon-placeholder" aria-hidden="true" />}
+
+<style>
+  .icon-placeholder {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+  }
+</style>

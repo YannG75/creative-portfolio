@@ -753,7 +753,7 @@ export default function ProjectsGallery({ projects, imageMap }: Props) {
           .gallery { padding: 0 24px 24px; gap: 16px; }
           .project-card { flex: 0 0 300px; height: auto; }
           .card-img { width: 300px; height: 200px; }
-          .modal-backdrop { padding: 16px; align-items: flex-end; }
+          .modal-backdrop { padding: 16px; }
           .sao-panel { max-height: 85vh; }
           .sao-body { grid-template-columns: 1fr; }
           .sao-img { display: none; }

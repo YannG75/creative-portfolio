@@ -120,12 +120,14 @@ export default function ProjectsGallery({ projects, imageMap }: Props) {
                   aria-hidden="true"
                 />
               )}
+              <div className="card-img-frontdrop" aria-hidden="true" />
               <span className={`card-num card-num-${project.accent}`}>{project.index}</span>
               <div className={`year-badge year-badge-${project.accent}`}>
                 <span className={`year-text year-text-${project.accent}`}>{project.year}</span>
               </div>
               <div className="card-img-glow" aria-hidden="true" />
               <div className="card-scanlines" aria-hidden="true" />
+
             </div>
 
             {/* Corps carte */}
@@ -336,6 +338,19 @@ export default function ProjectsGallery({ projects, imageMap }: Props) {
           object-fit: cover;
           object-position: center top;
           opacity: 0.85;
+          transition: filter 0.3s ease;
+        }
+        
+        .card-img-frontdrop {
+          position: absolute; inset: 0;
+          background: rgba(4, 8, 20, 0.65);
+          backdrop-filter: blur(2px);
+          -webkit-backdrop-filter: blur(2px)
+        }
+        
+        .project-card:hover .card-img-frontdrop {
+            backdrop-filter: blur(0px);
+            background: rgba(4, 8, 20, 0);
         }
 
         .card-img-glow {
@@ -792,7 +807,7 @@ export default function ProjectsGallery({ projects, imageMap }: Props) {
           .modal-backdrop { padding: 16px; }
           .sao-panel { max-height: 85vh; }
           .sao-body { grid-template-columns: 1fr; }
-          .sao-img { display: none; }
+          // .sao-img { display: none; }
           .sao-info { padding: 20px 24px; gap: 12px; }
           .info-title { font-size: 28px; }
           .info-num  { font-size: 36px; }

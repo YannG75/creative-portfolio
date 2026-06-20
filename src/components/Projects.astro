@@ -3,22 +3,25 @@ import { getImage } from 'astro:assets'
 import ProjectsGallery from './ProjectsGallery.tsx'
 import { projects } from '../data/projects'
 import paroleetvieRaw from '../assets/paroleetvie.webp'
-import pastitaliRaw   from '../assets/pastitalia.webp'
+import optiowRaw      from '../assets/optiow.webp'
 import busterwoodRaw  from '../assets/busterwood.webp'
 import firestoneRaw   from '../assets/firestone.webp'
+import pastitaliRaw   from '../assets/pastitalia.webp'
 
-const [paroleetvieOpt, pastitaliOpt, busterwoodOpt, firestoneOpt] = await Promise.all([
+const [paroleetvieOpt, optiowOpt, busterwoodOpt, firestoneOpt, pastitaliOpt] = await Promise.all([
   getImage({ src: paroleetvieRaw, width: 720, format: 'webp' }),
-  getImage({ src: pastitaliRaw,   width: 720, format: 'webp' }),
+  getImage({ src: optiowRaw,      width: 720, format: 'webp' }),
   getImage({ src: busterwoodRaw,  width: 720, format: 'webp' }),
   getImage({ src: firestoneRaw,   width: 720, format: 'webp' }),
+  getImage({ src: pastitaliRaw,   width: 720, format: 'webp' }),
 ])
 
 const imageMap: Record<string, string> = {
   'parole-et-vie': paroleetvieOpt.src,
-  'pastitalia':    pastitaliOpt.src,
+  'optiow-saas':   optiowOpt.src,
   'busterwood':    busterwoodOpt.src,
   'firestone':     firestoneOpt.src,
+  'pastitalia':    pastitaliOpt.src,
 }
 ---
 

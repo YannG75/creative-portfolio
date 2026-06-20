@@ -8,6 +8,7 @@ interface Props {
 
 export default function ProjectsGallery({ projects, imageMap }: Props) {
   const [selected, setSelected] = useState<Project | null>(null)
+  const [isClosing, setIsClosing] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const galleryRef = useRef<HTMLDivElement>(null)
   const startX = useRef(0)
@@ -50,12 +51,33 @@ export default function ProjectsGallery({ projects, imageMap }: Props) {
     setSelected(prev => prev?.id === project.id ? null : project)
   }, [])
 
-  const closePanel = useCallback(() => setSelected(null), [])
+  const closePanel = useCallback(() => {
+    setIsClosing(true)
+    setTimeout(() => {
+      setSelected(null)
+      setIsClosing(false)
+    }, 300)
+  }, [])
 
   /* ─── Escape + focus trap ─── */
   useEffect(() => {
     if (!selected) return
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closePanel() }
+    const panel = document.querySelector('.sao-panel') as HTMLElement | null
+    const focusable = panel?.querySelectorAll<HTMLElement>(
+      'button, a[href], [tabindex]:not([tabindex="-1"])'
+    )
+    const first = focusable?.[0]
+    const last = focusable?.[focusable.length - 1]
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { closePanel(); return }
+      if (e.key !== 'Tab' || !first || !last) return
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus() }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first.focus() }
+      }
+    }
     window.addEventListener('keydown', onKey)
     closeRef.current?.focus()
     return () => window.removeEventListener('keydown', onKey)
@@ -129,13 +151,13 @@ export default function ProjectsGallery({ projects, imageMap }: Props) {
       {/* ── Modal overlay SAO ── */}
       {selected && (
         <div
-          className="modal-backdrop"
+          className={`modal-backdrop${isClosing ? ' is-closing' : ''}`}
           onClick={(e) => { if (e.target === e.currentTarget) closePanel() }}
           role="dialog"
           aria-modal="true"
           aria-label={`Détail du projet ${selected.title}`}
         >
-          <div className={`sao-panel sao-panel-${selected.accent}`}>
+          <div className={`sao-panel sao-panel-${selected.accent}${isClosing ? ' is-closing' : ''}`}>
 
             {/* Header terminal */}
             <div className="sao-header">
@@ -476,8 +498,22 @@ export default function ProjectsGallery({ projects, imageMap }: Props) {
           box-shadow: 0 0 50px rgba(168,85,247,0.1), 0 0 0 1px rgba(168,85,247,0.06);
         }
         @keyframes panelIn {
-          from { opacity: 0; transform: scale(0.96) translateY(16px); }
+          from { opacity: 0; transform: scale(0.96) translateY(20px); }
           to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes panelOut {
+          from { opacity: 1; transform: scale(1) translateY(0); }
+          to   { opacity: 0; transform: scale(0.96) translateY(20px); }
+        }
+        @keyframes bdFadeOut {
+          from { opacity: 1; }
+          to   { opacity: 0; }
+        }
+        .modal-backdrop.is-closing {
+          animation: bdFadeOut 0.28s ease forwards;
+        }
+        .sao-panel.is-closing {
+          animation: panelOut 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
         /* Header */

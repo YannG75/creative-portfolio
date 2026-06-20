@@ -99,3 +99,35 @@ body {
 
 .accent-cyan { color: var(--accent-cyan); }
 .accent-purple { color: var(--accent-purple); }
+
+/* ─── Skip link (accessibilité clavier) ─── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 9999;
+  padding: 8px 16px;
+  background: var(--accent-cyan);
+  color: var(--bg-deep);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: top 0.1s;
+}
+.skip-link:focus { top: 16px; }
+
+/* ─── Respect prefers-reduced-motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .scan-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
